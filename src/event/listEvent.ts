@@ -2,11 +2,11 @@ import { getElementById } from '../utils/getElement';
 import { setElement } from '../utils/setElement';
 
 interface IrenderList {
-  (listArr: string[]): void;
+  (listArr: HTMLLIElement[]): void;
 }
 
 interface IaddItem {
-  (itemName: string): void;
+  (itemName: string, listArr: HTMLLIElement[]): void;
 }
 
 const listBox = getElementById<HTMLUListElement>('listBox');
@@ -49,12 +49,13 @@ const setLiItem = (itemName: string) => {
   return item;
 };
 
-export const addItem: IaddItem = (itemName) => {
+export const addItem: IaddItem = (itemName, listArr) => {
   const item = setLiItem(itemName);
-  listBox.appendChild(item);
+  listArr.unshift(item as HTMLLIElement);
+  listBox.prepend(item);
+  console.log(listArr);
 };
 
 export const renderList: IrenderList = (listArr) => {
-  const items = listArr.map((el) => setLiItem(el));
-  listBox.replaceChildren(...items);
+  listBox.replaceChildren(...listArr);
 };

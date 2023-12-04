@@ -1,7 +1,7 @@
 import { getElementById } from '../utils/getElement';
 
 interface IhandleSubmit {
-  (listArr: string[], callback: (itemNmae: string) => void): void;
+  (listArr: HTMLLIElement[], callback: (itemNmae: string, listArr: HTMLLIElement[]) => void): void;
 }
 
 /**
@@ -17,8 +17,7 @@ const handleSubmit: IhandleSubmit = (listArr, callback) => {
   inputForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (input && input.value !== '') {
-      listArr.unshift(input.value);
-      callback(input.value);
+      callback(input.value, listArr);
       input.value = '';
     }
   });
