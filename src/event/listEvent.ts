@@ -1,10 +1,6 @@
 import { getElementById } from '../utils/getElement';
 import { setElement } from '../utils/setElement';
 
-interface IrenderList {
-  (listArr: HTMLLIElement[]): void;
-}
-
 interface IaddItem {
   (itemName: string, listArr: HTMLLIElement[]): void;
 }
@@ -29,20 +25,23 @@ const selectItem = (e: Event) => {
 
 listBox.addEventListener('click', selectItem);
 
-const deleteItem = (e: Event) => {
-  const element = e.target as Element;
-  const parent = element.parentNode;
-  listBox.removeChild(parent);
-};
-
-const setLiItem = (itemName: string) => {
+const setLiItem = (itemName: string, listArr: HTMLLIElement[]) => {
   const item = setElement('li', `<p class="li_content">${itemName}</p>`);
 
   item.className += 'listItem';
 
   const button = setElement('button');
 
-  button.addEventListener('click', deleteItem);
+  button.addEventListener('click', (e: Event) => {
+    const element = e.target as Element;
+    const parent = element.parentNode;
+    listArr.forEach((el, idx) => {
+      if (el === item) {
+        listArr.splice(idx, 1);
+      }
+    });
+    listBox.removeChild(parent);
+  });
   button.textContent = '삭제';
 
   item.appendChild(button);
@@ -50,12 +49,8 @@ const setLiItem = (itemName: string) => {
 };
 
 export const addItem: IaddItem = (itemName, listArr) => {
-  const item = setLiItem(itemName);
+  const item = setLiItem(itemName, listArr);
   listArr.unshift(item as HTMLLIElement);
   listBox.prepend(item);
   console.log(listArr);
-};
-
-export const renderList: IrenderList = (listArr) => {
-  listBox.replaceChildren(...listArr);
 };

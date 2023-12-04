@@ -1,9 +1,9 @@
-import { getElementById } from './utils/getElement';
 import handleInput from './event/handleSubmit';
-import { addItem, renderList } from './event/listEvent';
+import { addItem } from './event/listEvent';
+import { handleSortList } from './event/sortEvent';
+import { renderList } from './event/renderEvent';
 
 import './css/style.css';
-import { handleSortList } from './event/sortEvent';
 
 const init = () => {
   const listArr: HTMLLIElement[] = [];
