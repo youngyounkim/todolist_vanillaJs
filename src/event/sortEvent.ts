@@ -5,6 +5,38 @@ interface IhandleSortList {
   (listArr: HTMLLIElement[]): void;
 }
 
+export const handleRenderingSortItem = (listArr: HTMLLIElement[], target: HTMLButtonElement) => {
+  switch (target.textContent) {
+    case 'All':
+      renderList(listArr);
+      break;
+
+    case 'Active':
+      const activeArr = listArr.filter((item) => {
+        if (item.className.indexOf('select') === -1) {
+          return true;
+        }
+        return false;
+      });
+      renderList(activeArr);
+      break;
+
+    case 'Completed':
+      const completedArr = listArr.filter((item) => {
+        if (item.className.indexOf('select') !== -1) {
+          return true;
+        }
+        return false;
+      });
+      renderList(completedArr);
+      break;
+
+    default:
+      renderList(listArr);
+      break;
+  }
+};
+
 export const handleSortList: IhandleSortList = (listArr) => {
   const buttons = getElementByClassName('sorting_button');
 
@@ -12,34 +44,13 @@ export const handleSortList: IhandleSortList = (listArr) => {
     el.addEventListener('click', (e) => {
       const target = e.target as HTMLButtonElement;
 
-      switch (target.textContent) {
-        case 'All':
-          renderList(listArr);
-          break;
-        case 'Active':
-          const activeArr = listArr.filter((el) => {
-            if (el.className.indexOf('select') === -1) {
-              return true;
-            }
-            return false;
-          });
-          renderList(activeArr);
+      Array.from(buttons).forEach((el) => {
+        el.classList.remove('seleted_BTN');
+      });
 
-          break;
-        case 'Completed':
-          const completedArr = listArr.filter((el) => {
-            if (el.className.indexOf('select') !== -1) {
-              return true;
-            }
-            return false;
-          });
-          renderList(completedArr);
+      target.className += ' seleted_BTN';
 
-          break;
-        default:
-          renderList(listArr);
-          break;
-      }
+      handleRenderingSortItem(listArr, target);
     });
   });
 };
