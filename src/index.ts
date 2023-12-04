@@ -4,13 +4,9 @@ import { addItem } from './event/listEvent';
 
 import './css/style.css';
 
-const listArr = [];
-
-const handleUpdate = () => {
-  console.log(listArr);
-};
-
 const init = () => {
+  const listArr = [];
+
   handleInput(listArr, addItem);
 };
 

@@ -11,6 +11,24 @@ interface IaddItem {
 
 const listBox = getElementById<HTMLUListElement>('listBox');
 
+const selectItem = (e: Event) => {
+  let target = e.target as Element;
+
+  if (target.className === 'li_content') {
+    target = target.parentNode as Element;
+  } else if (target.className.indexOf('listItem') === -1) {
+    return;
+  }
+
+  if (target.className.indexOf('selected') !== -1) {
+    target.className = 'listItem';
+  } else {
+    target.className += ' selected';
+  }
+};
+
+listBox.addEventListener('click', selectItem);
+
 export const renderList: IrenderList = (listArr) => {};
 
 const deleteItem = (e: Event) => {
@@ -20,7 +38,10 @@ const deleteItem = (e: Event) => {
 };
 
 export const addItem: IaddItem = (itemName) => {
-  const item = setElement('li', `<p>${itemName}</p>`);
+  const item = setElement('li', `<p class="li_content">${itemName}</p>`);
+
+  item.className += 'listItem';
+
   const button = setElement('button');
 
   button.addEventListener('click', deleteItem);
