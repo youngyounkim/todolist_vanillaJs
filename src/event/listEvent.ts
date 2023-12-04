@@ -29,15 +29,13 @@ const selectItem = (e: Event) => {
 
 listBox.addEventListener('click', selectItem);
 
-export const renderList: IrenderList = (listArr) => {};
-
 const deleteItem = (e: Event) => {
   const element = e.target as Element;
   const parent = element.parentNode;
   listBox.removeChild(parent);
 };
 
-export const addItem: IaddItem = (itemName) => {
+const setLiItem = (itemName: string) => {
   const item = setElement('li', `<p class="li_content">${itemName}</p>`);
 
   item.className += 'listItem';
@@ -48,5 +46,15 @@ export const addItem: IaddItem = (itemName) => {
   button.textContent = '삭제';
 
   item.appendChild(button);
+  return item;
+};
+
+export const addItem: IaddItem = (itemName) => {
+  const item = setLiItem(itemName);
   listBox.appendChild(item);
+};
+
+export const renderList: IrenderList = (listArr) => {
+  const items = listArr.map((el) => setLiItem(el));
+  listBox.replaceChildren(...items);
 };
