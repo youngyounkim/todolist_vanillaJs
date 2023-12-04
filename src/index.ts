@@ -1,5 +1,5 @@
 import handleInput from './event/handleSubmit';
-import { addItem } from './event/listEvent';
+import { addItem, completedList } from './event/listEvent';
 import { handleRenderingSortItem, handleSortList } from './event/sortEvent';
 import { renderList } from './event/renderEvent';
 
@@ -35,6 +35,8 @@ const init = () => {
   listBox.addEventListener('click', selectItem);
 
   handleSortList(listArr);
+
+  completedList(listArr);
 };
 
 window.addEventListener('load', () => {

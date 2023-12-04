@@ -1,5 +1,7 @@
-import { getElementById } from '../utils/getElement';
+import { getElementByClassName, getElementById } from '../utils/getElement';
 import { setElement } from '../utils/setElement';
+import { renderList } from './renderEvent';
+import { handleRenderingSortItem } from './sortEvent';
 
 interface IaddItem {
   (itemName: string, listArr: HTMLLIElement[]): void;
@@ -34,5 +36,19 @@ export const addItem: IaddItem = (itemName, listArr) => {
   const item = setLiItem(itemName, listArr);
   listArr.unshift(item as HTMLLIElement);
   listBox.prepend(item);
-  console.log(listArr);
+};
+
+export const completedList = (listArr: HTMLLIElement[]) => {
+  const button = getElementById<HTMLButtonElement>('completed_button');
+  const selectedBTN = getElementByClassName('seleted_BTN');
+
+  button.addEventListener('click', () => {
+    for (let i = 0; i < listArr.length; i++) {
+      if (listArr[i].className.indexOf('selected') !== -1) {
+        listArr.splice(i, 1);
+        i--;
+      }
+    }
+    handleRenderingSortItem(listArr, selectedBTN[0] as HTMLButtonElement);
+  });
 };
