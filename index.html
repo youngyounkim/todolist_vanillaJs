@@ -8,17 +8,19 @@
   </head>
   <body>
     <header>To Do List</header>
-    <form id="inputForm">
-      <input id="toDoInput" />
-    </form>
-    <span>
-      <button class="sorting_button seleted_BTN">All</button>
-      <button class="sorting_button">Active</button>
-      <button class="sorting_button">Completed</button>
-    </span>
-    <ul id="listBox"></ul>
-    <div>
-      <button id="completed_button">Clear Completed</button>
-    </div>
+    <section class="list_wrap">
+      <form id="input_form">
+        <input id="to_do_input" placeholder="Create your schedule" />
+      </form>
+      <span class="button_wrap">
+        <button class="sorting_button seleted_BTN">All</button>
+        <button class="sorting_button">Active</button>
+        <button class="sorting_button">Completed</button>
+      </span>
+      <ul id="list_box"></ul>
+      <div class="completed_wrap">
+        <button id="completed_button">Clear Completed</button>
+      </div>
+    </section>
   </body>
 </html>

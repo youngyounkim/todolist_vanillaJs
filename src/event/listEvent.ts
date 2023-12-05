@@ -1,18 +1,17 @@
 import { getElementByClassName, getElementById } from '../utils/getElement';
 import { setElement } from '../utils/setElement';
-import { renderList } from './renderEvent';
 import { handleRenderingSortItem } from './sortEvent';
 
 interface IaddItem {
   (itemName: string, listArr: HTMLLIElement[]): void;
 }
 
-const listBox = getElementById<HTMLUListElement>('listBox');
+const listBox = getElementById<HTMLUListElement>('list_box');
 
 const setLiItem = (itemName: string, listArr: HTMLLIElement[]) => {
-  const item = setElement('li', `<p class="li_content">${itemName}</p>`);
+  const item = setElement('li', `<p class="list_title">${itemName}</p>`);
 
-  item.className += 'listItem';
+  item.className += 'list_item';
 
   const button = setElement('button');
 

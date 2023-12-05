@@ -4,6 +4,7 @@ import { handleRenderingSortItem, handleSortList } from './event/sortEvent';
 import { renderList } from './event/renderEvent';
 
 import './css/style.css';
+import './css/reset.css';
 import { getElementByClassName, getElementById } from './utils/getElement';
 
 const init = () => {
@@ -11,20 +12,20 @@ const init = () => {
   renderList(listArr);
   handleInput(listArr, addItem);
 
-  const listBox = getElementById<HTMLUListElement>('listBox');
+  const listBox = getElementById<HTMLUListElement>('list_box');
   const selectedBTN = getElementByClassName('seleted_BTN');
 
   const selectItem = (e: Event) => {
     let target = e.target as Element;
 
-    if (target.className === 'li_content') {
+    if (target.className === 'list_title') {
       target = target.parentNode as Element;
-    } else if (target.className.indexOf('listItem') === -1) {
+    } else if (target.className.indexOf('list_item') === -1) {
       return;
     }
 
     if (target.className.indexOf('selected') !== -1) {
-      target.className = 'listItem';
+      target.className = 'list_item';
     } else {
       target.className += ' selected';
     }

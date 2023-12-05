@@ -11,8 +11,8 @@ interface IhandleSubmit {
  */
 
 const handleSubmit: IhandleSubmit = (listArr, callback) => {
-  const inputForm = getElementById<HTMLElement>('inputForm');
-  const input = getElementById<HTMLInputElement>('toDoInput');
+  const inputForm = getElementById<HTMLElement>('input_form');
+  const input = getElementById<HTMLInputElement>('to_do_input');
 
   inputForm.addEventListener('submit', (e) => {
     e.preventDefault();
