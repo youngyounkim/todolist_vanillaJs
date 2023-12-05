@@ -1,12 +1,14 @@
 import { addSubmitEvent } from './event/submitEvent';
-import { addListItem, addCompletedListEvent, addSelectListItemEvent } from './event/listEvent';
+import { addCompletedListEvent, addSelectListItemEvent } from './event/listEvent';
 import { addSortingListEvent } from './event/sortEvent';
 import { renderList } from './event/renderEvent';
 import { addDropTargetEvent, dragEvent } from './event/dragEvent';
 
+import { getElementByClassName, getElementById } from './utils/getElement';
+import { addListItem } from './utils/setListElement';
+
 import './css/style.css';
 import './css/reset.css';
-import { getElementByClassName, getElementById } from './utils/getElement';
 
 const init = () => {
   const listArr: HTMLLIElement[] = [];
