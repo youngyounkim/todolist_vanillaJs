@@ -5,7 +5,11 @@ interface IgetDragAfterElement {
 }
 
 interface IdragEvent {
-  (listArr: HTMLLIElement[], container: HTMLElement): void;
+  (listArr: HTMLLIElement[], listBox: HTMLElement): void;
+}
+
+interface IaddDropTargetEvent {
+  (listArr: HTMLLIElement[], listBox: HTMLElement): void;
 }
 
 /**
@@ -23,10 +27,8 @@ export const getDragAfterElement: IgetDragAfterElement = (container, y) => {
       const offset = y - box.top - box.height / 2;
 
       if (offset < 0 && offset > closest.offset) {
-        child.classList.add('drop_target');
         return { offset: offset, element: child };
       } else {
-        child.classList.remove('drop_target');
         return closest;
       }
     },
@@ -37,31 +39,55 @@ export const getDragAfterElement: IgetDragAfterElement = (container, y) => {
 /**
  * 드래그 완료 시 실행되는 이벤트
  * @param listArr {HTMLLIElement[]} 드래그된 element 값을 갱신하기 위한 arr
- * @param container {HTMLElement} 이벤트를 부여하기 위한 root element
+ * @param listBox {HTMLElement} 이벤트를 부여하기 위한 root element
  */
-export const dragEvent: IdragEvent = (listArr, container) => {
+export const dragEvent: IdragEvent = (listArr, listBox) => {
   // todolist 내부에서 드랍 한 경우 afterElement의 앞에 드래그 아이템을 삽입하기 위한 이벤트
-  container.addEventListener('mouseup', (e) => {
-    const afterElement = getDragAfterElement(container, e.clientY);
+
+  listBox.addEventListener('mouseup', (e) => {
+    const afterElement = getDragAfterElement(listBox, e.clientY);
     const currentDraggable = document.querySelector('.dragging');
 
     if (currentDraggable) {
-      container.insertBefore(currentDraggable, afterElement);
+      // 드랍 대상에 element 이동
+      listBox.insertBefore(currentDraggable, afterElement);
+
+      // 이동한 순서대로 listArr 갱신
+      const moveElemntIdx = listArr.indexOf(currentDraggable as HTMLLIElement);
+      listArr.splice(moveElemntIdx, 1);
+      const targetIdx = listArr.indexOf(afterElement as HTMLLIElement);
+      listArr.splice(targetIdx, 0, currentDraggable as HTMLLIElement);
+
+      listArr.map((el) => {
+        el.classList?.remove('drop_target');
+      });
+
       currentDraggable.classList.remove('dragging');
     }
+  });
+
+  // listbox 외부에서 이벤트 실행 시 li class 이름 초기화
+  document.addEventListener('mouseup', () => {
+    listArr.map((el) => {
+      el.classList?.remove('drop_target', 'dragging');
+    });
   });
 };
 
 /**
  * 드래그 중일 때 마우스의 위치에 있는 element에 가이드 정보를 노출하기 위한 이벤트
  */
-export const addDropTargetEvent = () => {
-  window.addEventListener('mousemove', (e) => {
-    const currentDraggable = document.querySelector('.dragging');
+export const addDropTargetEvent: IaddDropTargetEvent = (listArr, listBox) => {
+  listBox.addEventListener('mousemove', (e) => {
+    const currentDraggable = listBox.querySelector('.dragging');
     if (currentDraggable === null) return;
 
-    const container = getElementById<HTMLUListElement>('list_box');
+    const target = getDragAfterElement(listBox, e.clientY);
 
-    getDragAfterElement(container, e.clientY);
+    listArr.map((el) => {
+      el.classList?.remove('drop_target');
+    });
+
+    if (target?.textContent) target.classList?.add('drop_target');
   });
 };

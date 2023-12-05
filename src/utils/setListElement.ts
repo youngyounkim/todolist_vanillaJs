@@ -16,6 +16,7 @@ interface IaddItem {
  * 추가할 아이템 element를 생성하는 함수
  * @param itemName 추가할 todolist의 이름
  * @param listArr {HTMLLIElement[]} 랜더링되는 리스트 배열
+ * @param listBox {HTMLElement} 삭제 버튼 이벤트를 넣을 element
  * @returns 생성된 element를 반환
  */
 const setLiItem: IsetLiItem = (itemName, listArr, listBox) => {
@@ -26,6 +27,7 @@ const setLiItem: IsetLiItem = (itemName, listArr, listBox) => {
   const button = setElement('button');
 
   item.addEventListener('mousedown', () => {
+    if (item.className.indexOf('selected') !== -1) return;
     item.classList.add('dragging');
   });
 

@@ -29,7 +29,7 @@ const init = () => {
 
   dragEvent(listArr, listBox);
 
-  addDropTargetEvent();
+  addDropTargetEvent(listArr, listBox);
 };
 
 window.addEventListener('load', () => {
