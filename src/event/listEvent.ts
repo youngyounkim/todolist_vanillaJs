@@ -46,6 +46,10 @@ export const addSelectListItemEvent: IaddSelectListItemEvent = (listArr, listBox
       return;
     }
 
+    if (target.className.indexOf('dragging') === -1) {
+      return;
+    }
+
     if (target.className.indexOf('selected') !== -1) {
       target.classList.remove('selected');
     } else {
@@ -55,5 +59,5 @@ export const addSelectListItemEvent: IaddSelectListItemEvent = (listArr, listBox
     handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
   };
 
-  listBox.addEventListener('click', selectItem);
+  listBox.addEventListener('mouseup', selectItem);
 };
