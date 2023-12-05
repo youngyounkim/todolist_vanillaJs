@@ -1,46 +1,33 @@
-import handleInput from './event/handleSubmit';
-import { addItem, completedList } from './event/listEvent';
-import { handleRenderingSortItem, handleSortList } from './event/sortEvent';
+import { addSubmitEvent } from './event/submitEvent';
+import { addListItem, addCompletedListEvent, addSelectListItemEvent } from './event/listEvent';
+import { addSortingListEvent } from './event/sortEvent';
 import { renderList } from './event/renderEvent';
+import { addDropTargetEvent, dragEvent } from './event/dragEvent';
 
 import './css/style.css';
 import './css/reset.css';
 import { getElementByClassName, getElementById } from './utils/getElement';
-import { dragEvent } from './event/dragEvent';
 
 const init = () => {
   const listArr: HTMLLIElement[] = [];
+
+  const listBox = getElementById<HTMLElement>('list_box');
+  const sortingBtn = getElementByClassName('sorting_button');
+  const completedButton = getElementById<HTMLButtonElement>('completed_button');
+
   renderList(listArr);
-  handleInput(listArr, addItem);
 
-  const listBox = getElementById<HTMLUListElement>('list_box');
-  const selectedBTN = getElementByClassName('seleted_BTN');
+  addSubmitEvent(listArr, addListItem, listBox);
 
-  const selectItem = (e: Event) => {
-    let target = e.target as HTMLElement;
+  addSortingListEvent(listArr, sortingBtn);
 
-    if (target.className === 'list_title') {
-      target = target.parentNode as HTMLElement;
-    } else if (target.className.indexOf('list_item') === -1) {
-      return;
-    }
+  addSelectListItemEvent(listArr, listBox);
 
-    if (target.className.indexOf('selected') !== -1) {
-      target.className = 'list_item';
-    } else {
-      target.className += ' selected';
-    }
+  addCompletedListEvent(listArr, completedButton);
 
-    handleRenderingSortItem(listArr, selectedBTN[0] as HTMLButtonElement);
-  };
+  dragEvent(listArr, listBox);
 
-  listBox.addEventListener('click', selectItem);
-
-  handleSortList(listArr);
-
-  completedList(listArr);
-
-  dragEvent(listArr);
+  addDropTargetEvent();
 };
 
 window.addEventListener('load', () => {

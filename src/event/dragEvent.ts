@@ -1,35 +1,67 @@
 import { getElementById } from '../utils/getElement';
 
-export const getDragAfterElement = (container, y) => {
-  const draggableElements = [...container.querySelectorAll('.list_item:not(.dragging)')];
+interface IgetDragAfterElement {
+  (container: HTMLElement, y: number): HTMLElement;
+}
+
+interface IdragEvent {
+  (listArr: HTMLLIElement[], container: HTMLElement): void;
+}
+
+/**
+ *마우스의 위치를 전달 받아 현재 마우스가 가리키고 있는 element를 반환하는 함수
+ * @param container {HTMLElement} 드래그된 아이템이 있는 요소를 찾기 위한 root element
+ * @param y {number} 마우스의 높이 값
+ * @returns 현재 마우스가 위치한 element
+ */
+export const getDragAfterElement: IgetDragAfterElement = (container, y) => {
+  const draggableElements = [...Array.from(container.querySelectorAll('.list_item:not(.dragging)'))];
 
   return draggableElements.reduce(
     (closest, child) => {
-      const box = child.getBoundingClientRect(); //해당 엘리먼트에 top값, height값 담겨져 있는 메소드를 호출해 box변수에 할당
-      const offset = y - box.top - box.height / 2; //수직 좌표 - top값 - height값 / 2의 연산을 통해서 offset변수에 할당
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+
       if (offset < 0 && offset > closest.offset) {
-        // (예외 처리) 0 이하 와, 음의 무한대 사이에 조건
         child.classList.add('drop_target');
-        return { offset: offset, element: child }; // Element를 리턴
+        return { offset: offset, element: child };
       } else {
         child.classList.remove('drop_target');
         return closest;
       }
     },
-    { offset: Number.NEGATIVE_INFINITY },
+    { offset: Number.NEGATIVE_INFINITY, element: undefined },
   ).element;
 };
 
-export const dragEvent = (arr) => {
-  const container = getElementById<HTMLUListElement>('list_box');
-
-  container.addEventListener('mouseup', (e: any) => {
-    const afterElement = getDragAfterElement(container, e.clientY); //(결국 드래그하여 마지막 영역의 엘리먼트를 반환합니다.)
-    const currentDraggable = document.querySelector('.dragging'); //현재 내가 잡은 엘리먼트
+/**
+ * 드래그 완료 시 실행되는 이벤트
+ * @param listArr {HTMLLIElement[]} 드래그된 element 값을 갱신하기 위한 arr
+ * @param container {HTMLElement} 이벤트를 부여하기 위한 root element
+ */
+export const dragEvent: IdragEvent = (listArr, container) => {
+  // todolist 내부에서 드랍 한 경우 afterElement의 앞에 드래그 아이템을 삽입하기 위한 이벤트
+  container.addEventListener('mouseup', (e) => {
+    const afterElement = getDragAfterElement(container, e.clientY);
+    const currentDraggable = document.querySelector('.dragging');
 
     if (currentDraggable) {
-      container.insertBefore(currentDraggable, afterElement); //마지막까지 드래그한 엘리먼트 앞에 현재 내가 잡은 엘리먼트를 삽입 합니다.
+      container.insertBefore(currentDraggable, afterElement);
       currentDraggable.classList.remove('dragging');
     }
+  });
+};
+
+/**
+ * 드래그 중일 때 마우스의 위치에 있는 element에 가이드 정보를 노출하기 위한 이벤트
+ */
+export const addDropTargetEvent = () => {
+  window.addEventListener('mousemove', (e) => {
+    const currentDraggable = document.querySelector('.dragging');
+    if (currentDraggable === null) return;
+
+    const container = getElementById<HTMLUListElement>('list_box');
+
+    getDragAfterElement(container, e.clientY);
   });
 };
