@@ -80,7 +80,6 @@ header {
 #list_box {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   background-color: #f6f8ff;
   padding: 16px;
   height: 500px;
@@ -97,6 +96,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 4px;
   border-bottom: 1px solid #cbced4;
   padding: 4px;
   height: 30px;
@@ -139,4 +139,8 @@ header {
   color: #fefffe;
   cursor: pointer;
   font-weight: 600;
+}
+
+.drop_target {
+  border-top: 1px solid #af7eeb;
 }

@@ -9,13 +9,21 @@ interface IaddItem {
 
 const listBox = getElementById<HTMLUListElement>('list_box');
 
+window.addEventListener('mousemove', (e: any) => {
+  const currentDraggable = document.querySelector('.dragging');
+  if (currentDraggable === null) return;
+
+  const container = getElementById<HTMLUListElement>('list_box');
+
+  getDragAfterElement(container, e.clientY);
+});
+
 const setLiItem = (itemName: string, listArr: HTMLLIElement[]) => {
   const item = setElement('li', `<p class="list_title">${itemName}</p>`);
 
   item.className += 'list_item';
 
   const button = setElement('button');
-  item.draggable = true;
 
   item.addEventListener('mousedown', () => {
     item.classList.add('dragging');

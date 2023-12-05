@@ -27,10 +27,8 @@ const init = () => {
 
     if (target.className.indexOf('selected') !== -1) {
       target.className = 'list_item';
-      target.draggable = true;
     } else {
       target.className += ' selected';
-      target.draggable = false;
     }
 
     handleRenderingSortItem(listArr, selectedBTN[0] as HTMLButtonElement);
