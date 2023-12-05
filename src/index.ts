@@ -9,6 +9,7 @@ import { addListItem } from './utils/setListElement';
 
 import './css/style.css';
 import './css/reset.css';
+import { addEscapeKeyboardEvent } from './event/escapeEvent';
 
 const init = () => {
   const listArr: HTMLLIElement[] = [];
@@ -30,6 +31,8 @@ const init = () => {
   dragEvent(listArr, listBox);
 
   addDropTargetEvent(listArr, listBox);
+
+  addEscapeKeyboardEvent(listArr);
 };
 
 window.addEventListener('load', () => {
