@@ -1,5 +1,6 @@
 import { getElementByClassName, getElementById } from '../utils/getElement';
 import { setElement } from '../utils/setElement';
+import { getDragAfterElement } from './dragEvent';
 import { handleRenderingSortItem } from './sortEvent';
 
 interface IaddItem {
@@ -14,6 +15,11 @@ const setLiItem = (itemName: string, listArr: HTMLLIElement[]) => {
   item.className += 'list_item';
 
   const button = setElement('button');
+  item.draggable = true;
+
+  item.addEventListener('mousedown', () => {
+    item.classList.add('dragging');
+  });
 
   button.addEventListener('click', (e: Event) => {
     const element = e.target as Element;

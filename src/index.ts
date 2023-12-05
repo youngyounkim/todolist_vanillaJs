@@ -6,6 +6,7 @@ import { renderList } from './event/renderEvent';
 import './css/style.css';
 import './css/reset.css';
 import { getElementByClassName, getElementById } from './utils/getElement';
+import { dragEvent } from './event/dragEvent';
 
 const init = () => {
   const listArr: HTMLLIElement[] = [];
@@ -16,18 +17,20 @@ const init = () => {
   const selectedBTN = getElementByClassName('seleted_BTN');
 
   const selectItem = (e: Event) => {
-    let target = e.target as Element;
+    let target = e.target as HTMLElement;
 
     if (target.className === 'list_title') {
-      target = target.parentNode as Element;
+      target = target.parentNode as HTMLElement;
     } else if (target.className.indexOf('list_item') === -1) {
       return;
     }
 
     if (target.className.indexOf('selected') !== -1) {
       target.className = 'list_item';
+      target.draggable = true;
     } else {
       target.className += ' selected';
+      target.draggable = false;
     }
 
     handleRenderingSortItem(listArr, selectedBTN[0] as HTMLButtonElement);
@@ -38,6 +41,8 @@ const init = () => {
   handleSortList(listArr);
 
   completedList(listArr);
+
+  dragEvent(listArr);
 };
 
 window.addEventListener('load', () => {
