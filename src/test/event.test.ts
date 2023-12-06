@@ -5,6 +5,7 @@ import document from './testUtils/document';
 
 import { addListItem } from '../utils/setListElement';
 import { addSubmitEvent } from '../event/submitEvent';
+import { addSelectListItemEvent } from '../event/listEvent';
 
 render(`<section class="list_wrap">
 <form id="input_form">
@@ -47,5 +48,26 @@ describe('submit event 테스트', () => {
     fireEvent.submit(input);
 
     expect(listBox.firstElementChild.textContent.indexOf('todo')).not.toEqual(-1);
+  });
+});
+
+describe('list click 테스트', () => {
+  const listArr: HTMLLIElement[] = [];
+
+  const listBox = document.getElementById('list_box');
+  const input = document.getElementById('to_do_input');
+  input.value = 'todo';
+
+  addSubmitEvent(listArr, addListItem, listBox);
+  addSelectListItemEvent(listArr, listBox);
+
+  test('list selected 테스트', () => {
+    fireEvent.submit(input);
+
+    const item = listBox.firstElementChild;
+    fireEvent.mouseDown(item);
+    fireEvent.mouseUp(item);
+
+    expect(item.className.indexOf('selected')).not.toEqual(-1);
   });
 });
