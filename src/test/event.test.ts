@@ -5,7 +5,7 @@ import document from './testUtils/document';
 
 import { addListItem } from '../utils/setListElement';
 import { addSubmitEvent } from '../event/submitEvent';
-import { addSelectListItemEvent } from '../event/listEvent';
+import { addCompletedListEvent, addSelectListItemEvent } from '../event/listEvent';
 import { addSortingListEvent } from '../event/sortEvent';
 import { getElementByClassName } from '../utils/getElement';
 
@@ -28,6 +28,8 @@ const listArr: HTMLLIElement[] = [];
 
 const listBox = document.getElementById('list_box') as HTMLUListElement;
 const input = document.getElementById('to_do_input') as HTMLInputElement;
+const completedButton = document.getElementById('completed_button') as HTMLButtonElement;
+const sortingBtn = getElementByClassName('sorting_button');
 
 describe('submit event 테스트', () => {
   input.value = 'todo';
@@ -77,9 +79,7 @@ describe('list click 테스트', () => {
   });
 });
 
-describe('button soring 테스트', () => {
-  const sortingBtn = getElementByClassName('sorting_button');
-
+describe('button sorting 테스트', () => {
   addSortingListEvent(listArr, sortingBtn);
 
   for (let i = 0; i < 5; i++) {
@@ -102,5 +102,15 @@ describe('button soring 테스트', () => {
   test('진행완료 버튼 클릭 테스트', () => {
     fireEvent.click(sortingBtn[2]);
     expect(listBox.childNodes.length).toEqual(1);
+  });
+});
+
+describe('완료 아이템 제거 테스트', () => {
+  addCompletedListEvent(listArr, completedButton);
+
+  test('complete 아이템 제거 테스트', () => {
+    fireEvent.click(completedButton);
+    fireEvent.click(sortingBtn[0]);
+    expect(listBox.childNodes.length).toEqual(3);
   });
 });
