@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const { setElement } = require('../utils/setElement.ts');
+import { setElement } from '../utils/setElement';
 
 describe('util 함수 테스트', () => {
   test('element 생성 테스트 케이스', () => {
