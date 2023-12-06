@@ -49,6 +49,7 @@ export const addSelectListItemEvent: IaddSelectListItemEvent = (listArr, listBox
       target.classList.remove('selected');
     }
     if (target.className.indexOf('dragging') === -1) {
+      handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
       return;
     }
     target.classList.add('selected');
