@@ -18,7 +18,7 @@ const init = () => {
   const sortingBtn = getElementByClassName('sorting_button');
   const completedButton = getElementById<HTMLButtonElement>('completed_button');
 
-  renderList(listArr);
+  renderList(listArr, listBox);
 
   addSubmitEvent(listArr, addListItem, listBox);
 
