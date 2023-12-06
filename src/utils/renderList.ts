@@ -11,7 +11,7 @@ interface IrenderList {
  */
 export const renderList: IrenderList = (listArr, listBox) => {
   const item_count = getElementById<HTMLElement>('item_count');
-  item_count.textContent = String(listArr.length) + ' items left';
+  if (item_count !== null) item_count.textContent = String(listArr.length) + ' items left';
   if (!listBox) {
     listBox = getElementById<HTMLElement>('list_box');
   }

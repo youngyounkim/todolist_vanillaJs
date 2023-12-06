@@ -62,6 +62,6 @@ export const addListItem: IaddItem = (itemName, listArr, listBox) => {
   const selectedBTN = getElementByClassName('seleted_BTN');
   if (selectedBTN[0].textContent !== 'Completed') {
     listBox.prepend(item);
-    item_count.textContent = String(listArr.length) + ' items left';
+    if (item_count !== null) item_count.textContent = String(listArr.length) + ' items left';
   }
 };

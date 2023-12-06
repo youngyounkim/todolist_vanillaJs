@@ -63,12 +63,13 @@ describe('list click 테스트', () => {
     expect(item.className.indexOf('selected')).not.toEqual(-1);
   });
 
-  test('list 클릭 시 완료 상태에서 진행중 상태로 전환 테스트', () => {
+  test('삭제 버튼 클릭 테스트', () => {
     const childNode = listBox.childNodes;
     const item = listBox.firstElementChild;
     const button = item.lastElementChild;
 
-    fireEvent.click(button);
+    fireEvent.mouseDown(button);
+    fireEvent.mouseUp(button);
 
     let isDelete = true;
     Array.from(childNode).forEach((el) => {
@@ -111,7 +112,7 @@ describe('button sorting 테스트', () => {
     fireEvent.mouseDown(item);
     fireEvent.mouseUp(item);
 
-    expect(listBox.childNodes.length).toEqual(2);
+    expect(listBox.childNodes.length).toEqual(1);
   });
 
   test('진행완료 버튼 클릭 시 진행 완료된 아이템이 정상적으로 노출되는지 확인하는 테스트', () => {
@@ -135,6 +136,6 @@ describe('완료 아이템 제거 테스트', () => {
   test('complete 버튼을 클릭 할 때 제거가 잘 되는지 확인하는 테스트', () => {
     fireEvent.click(completedButton);
     fireEvent.click(sortingBtn[0]);
-    expect(listBox.childNodes.length).toEqual(2);
+    expect(listBox.childNodes.length).toEqual(1);
   });
 });
