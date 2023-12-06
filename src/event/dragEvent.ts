@@ -1,4 +1,6 @@
-import { getElementById } from '../utils/getElement';
+import { getElementByClassName, getElementById } from '../utils/getElement';
+import { renderList } from '../utils/renderList';
+import { handleRenderingSortingItem } from './sortEvent';
 
 interface IgetDragAfterElement {
   (container: HTMLElement, y: number): HTMLElement;
@@ -68,21 +70,38 @@ export const dragEvent: IdragEvent = (listArr, listBox) => {
 
   // listbox 외부에서 이벤트 실행 시 li class 이름 초기화
   document.addEventListener('mouseup', () => {
+    const selectedBTN = getElementByClassName('seleted_BTN');
     listArr.map((el) => {
       el.classList?.remove('drop_target', 'dragging');
     });
+
+    handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
   });
 };
 
 /**
  * 드래그 중일 때 마우스의 위치에 있는 element에 가이드 정보를 노출하기 위한 이벤트
  */
+
+let previewTimeout;
+
+const handlePreview = (listBox, afterElement, currentDraggable) => {
+  previewTimeout = setTimeout(() => {
+    listBox.insertBefore(currentDraggable, afterElement);
+  }, 2000);
+};
+
 export const addDropTargetEvent: IaddDropTargetEvent = (listArr, listBox) => {
   listBox.addEventListener('mousemove', (e) => {
     const currentDraggable = listBox.querySelector('.dragging');
     if (currentDraggable === null) return;
 
     const target = getDragAfterElement(listBox, e.clientY);
+
+    if (currentDraggable !== target) {
+      clearTimeout(previewTimeout);
+      handlePreview(listBox, target, currentDraggable);
+    }
 
     listArr.map((el) => {
       el.classList?.remove('drop_target');

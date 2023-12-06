@@ -1,7 +1,7 @@
 import { addSubmitEvent } from './event/submitEvent';
 import { addCompletedListEvent, addSelectListItemEvent } from './event/listEvent';
 import { addSortingListEvent } from './event/sortEvent';
-import { renderList } from './event/renderEvent';
+import { renderList } from './utils/renderList';
 import { addDropTargetEvent, dragEvent } from './event/dragEvent';
 
 import { getElementByClassName, getElementById } from './utils/getElement';
@@ -32,7 +32,7 @@ const init = () => {
 
   addDropTargetEvent(listArr, listBox);
 
-  addEscapeKeyboardEvent(listArr);
+  addEscapeKeyboardEvent(listArr, listBox);
 };
 
 window.addEventListener('load', () => {

@@ -62,7 +62,7 @@ export const addSelectListItemEvent: IaddSelectListItemEvent = (listArr, listBox
       return;
     }
 
-    target.classList.add('selected');
+    if (!hasDropTarget) target.classList.add('selected');
 
     handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
   };

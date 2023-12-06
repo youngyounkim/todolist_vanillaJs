@@ -1,5 +1,5 @@
 import { getElementByClassName } from '../utils/getElement';
-import { renderList } from './renderEvent';
+import { renderList } from '../utils/renderList';
 
 interface IhandleRenderingSortingItem {
   (listArr: HTMLLIElement[], target: HTMLButtonElement): void;

@@ -1,4 +1,4 @@
-import { getElementById } from '../utils/getElement';
+import { getElementById } from './getElement';
 
 interface IrenderList {
   (listArr: HTMLLIElement[], listBox?: HTMLElement): void;
