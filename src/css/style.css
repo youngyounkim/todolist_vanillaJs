@@ -61,6 +61,12 @@ header {
   color: rgb(182, 181, 181);
   font-size: 12px;
   cursor: pointer;
+  min-width: 40px;
+  font-weight: 600;
+}
+
+.sorting_button:hover {
+  background-color: #f6f8ff;
 }
 
 .button_wrap :first-child {
@@ -97,10 +103,13 @@ header {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 4px;
-  border-bottom: 1px solid #cbced4;
-  padding: 4px;
-  height: 30px;
+  padding: 8px;
+  height: 36px;
   cursor: move;
+}
+
+.list_item:hover {
+  background-color: #aaaaaa31;
 }
 
 .list_title {
@@ -117,6 +126,10 @@ header {
   padding: 4px;
   color: #fefffe;
   font-size: 12px;
+}
+
+.list_item button:hover {
+  background-color: #7951aa;
 }
 
 .selected p {
@@ -139,6 +152,10 @@ header {
   color: #fefffe;
   cursor: pointer;
   font-weight: 600;
+}
+
+#completed_button:hover {
+  background-color: #7951aa;
 }
 
 .drop_target {
