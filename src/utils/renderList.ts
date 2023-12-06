@@ -13,5 +13,16 @@ export const renderList: IrenderList = (listArr, listBox) => {
   if (!listBox) {
     listBox = getElementById<HTMLElement>('list_box');
   }
-  listBox.replaceChildren(...listArr);
+  const pendingList = listArr.filter((el) => {
+    if (el.className.indexOf('selected') === -1) {
+      return true;
+    }
+  });
+  const selectList = listArr.filter((el) => {
+    if (el.className.indexOf('selected') !== -1) {
+      return true;
+    }
+  });
+
+  listBox.replaceChildren(...pendingList, ...selectList);
 };
