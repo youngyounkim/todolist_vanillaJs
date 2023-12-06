@@ -142,5 +142,9 @@ header {
 }
 
 .drop_target {
-  border-top: 1px solid #af7eeb;
+  border-top: 2px solid #af7eeb;
+}
+
+.dragging {
+  color: #aaaaaa;
 }
