@@ -10,6 +10,8 @@ interface IrenderList {
  * @param listBox {HTMLElement} 아이템을 추가할 타겟 element
  */
 export const renderList: IrenderList = (listArr, listBox) => {
+  const item_count = getElementById<HTMLElement>('item_count');
+  item_count.textContent = String(listArr.length) + ' items left';
   if (!listBox) {
     listBox = getElementById<HTMLElement>('list_box');
   }

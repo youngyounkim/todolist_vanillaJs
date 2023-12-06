@@ -98,6 +98,17 @@ header {
   display: none;
 }
 
+.list_box_wrap {
+  position: relative;
+  background-color: #f6f8ff;
+}
+
+#item_count {
+  font-size: 14px;
+  padding: 8px;
+  text-align: center;
+}
+
 .list_item {
   display: flex;
   flex-direction: row;

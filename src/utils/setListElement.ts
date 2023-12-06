@@ -1,4 +1,4 @@
-import { getElementByClassName } from './getElement';
+import { getElementByClassName, getElementById } from './getElement';
 import { setElement } from './setElement';
 
 interface IsetLiItem {
@@ -56,6 +56,12 @@ const setLiItem: IsetLiItem = (itemName, listArr, listBox) => {
 export const addListItem: IaddItem = (itemName, listArr, listBox) => {
   const item = setLiItem(itemName, listArr, listBox);
   listArr.unshift(item as HTMLLIElement);
+
+  const item_count = getElementById<HTMLElement>('item_count');
+
   const selectedBTN = getElementByClassName('seleted_BTN');
-  if (selectedBTN[0].textContent !== 'Completed') listBox.prepend(item);
+  if (selectedBTN[0].textContent !== 'Completed') {
+    listBox.prepend(item);
+    item_count.textContent = String(listArr.length) + ' items left';
+  }
 };

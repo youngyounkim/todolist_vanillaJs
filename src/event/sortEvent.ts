@@ -1,4 +1,3 @@
-import { getElementByClassName } from '../utils/getElement';
 import { renderList } from '../utils/renderList';
 
 interface IhandleRenderingSortingItem {
