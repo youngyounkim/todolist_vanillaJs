@@ -55,7 +55,7 @@ describe('submit event 테스트', () => {
 describe('list click 테스트', () => {
   addSelectListItemEvent(listArr, listBox);
 
-  test('list selected 테스트', () => {
+  test('list 클릭 시 완료 상태로 전환 테스트', () => {
     const item = listBox.firstElementChild;
     fireEvent.mouseDown(item);
     fireEvent.mouseUp(item);
@@ -63,7 +63,7 @@ describe('list click 테스트', () => {
     expect(item.className.indexOf('selected')).not.toEqual(-1);
   });
 
-  test('list 제거 테스트', () => {
+  test('list 클릭 시 완료 상태에서 진행중 상태로 전환 테스트', () => {
     const childNode = listBox.childNodes;
     const item = listBox.firstElementChild;
     const button = item.lastElementChild;
@@ -88,29 +88,53 @@ describe('button sorting 테스트', () => {
     fireEvent.submit(input);
   }
 
-  test('진행중 버튼 클릭 테스트', () => {
+  test('진행중 버튼 클릭 시 진행중인 아이템이 출력되는지 테스트', () => {
     const item = listBox.firstElementChild;
     fireEvent.mouseDown(item);
     fireEvent.mouseUp(item);
 
     fireEvent.click(sortingBtn[1]);
 
-    listBox.childNodes.length;
-    expect(listBox.childNodes.length).toEqual(3);
+    let isSelect = true;
+
+    Array.from(listBox.childNodes).forEach((el: HTMLLinkElement) => {
+      if (el.className.indexOf('selected') !== -1) {
+        isSelect = false;
+      }
+    });
+
+    expect(listBox.childNodes.length === 3 && isSelect).toBeTruthy;
   });
 
-  test('진행완료 버튼 클릭 테스트', () => {
+  test('진행중인 todo 클릭 시 완료 되어 진행중 리스트에서 제거되는 이벤트', () => {
+    const item = listBox.firstElementChild;
+    fireEvent.mouseDown(item);
+    fireEvent.mouseUp(item);
+
+    expect(listBox.childNodes.length).toEqual(2);
+  });
+
+  test('진행완료 버튼 클릭 시 진행 완료된 아이템이 정상적으로 노출되는지 확인하는 테스트', () => {
     fireEvent.click(sortingBtn[2]);
-    expect(listBox.childNodes.length).toEqual(1);
+
+    let isSelect = true;
+
+    Array.from(listBox.childNodes).forEach((el: HTMLLinkElement) => {
+      if (el.className.indexOf('selected') === -1) {
+        isSelect = false;
+      }
+    });
+
+    expect(listBox.childNodes.length === 2 && isSelect).toBeTruthy;
   });
 });
 
 describe('완료 아이템 제거 테스트', () => {
   addCompletedListEvent(listArr, completedButton);
 
-  test('complete 아이템 제거 테스트', () => {
+  test('complete 버튼을 클릭 할 때 제거가 잘 되는지 확인하는 테스트', () => {
     fireEvent.click(completedButton);
     fireEvent.click(sortingBtn[0]);
-    expect(listBox.childNodes.length).toEqual(3);
+    expect(listBox.childNodes.length).toEqual(2);
   });
 });
