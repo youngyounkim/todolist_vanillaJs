@@ -20,6 +20,9 @@ interface IaddDropTargetEvent {
  * @param y {number} 마우스의 높이 값
  * @returns 현재 마우스가 위치한 element
  */
+
+let previewTimeout;
+
 export const getDragAfterElement: IgetDragAfterElement = (container, y) => {
   const draggableElements = [...Array.from(container.querySelectorAll('.list_item:not(.dragging)'))];
 
@@ -49,8 +52,8 @@ export const dragEvent: IdragEvent = (listArr, listBox) => {
   listBox.addEventListener('mouseup', (e) => {
     const afterElement = getDragAfterElement(listBox, e.clientY);
     const currentDraggable = document.querySelector('.dragging');
-
-    if (currentDraggable) {
+    clearTimeout(previewTimeout);
+    if (currentDraggable && afterElement !== currentDraggable) {
       // 드랍 대상에 element 이동
       listBox.insertBefore(currentDraggable, afterElement);
 
@@ -74,7 +77,7 @@ export const dragEvent: IdragEvent = (listArr, listBox) => {
     listArr.map((el) => {
       el.classList?.remove('drop_target', 'dragging');
     });
-
+    clearTimeout(previewTimeout);
     handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
   });
 };
@@ -83,23 +86,20 @@ export const dragEvent: IdragEvent = (listArr, listBox) => {
  * 드래그 중일 때 마우스의 위치에 있는 element에 가이드 정보를 노출하기 위한 이벤트
  */
 
-let previewTimeout;
-
-const handlePreview = (listBox, afterElement, currentDraggable) => {
-  previewTimeout = setTimeout(() => {
-    listBox.insertBefore(currentDraggable, afterElement);
-  }, 2000);
-};
-
 export const addDropTargetEvent: IaddDropTargetEvent = (listArr, listBox) => {
+  const handlePreview = (listBox, afterElement, currentDraggable) => {
+    previewTimeout = setTimeout(() => {
+      listBox.insertBefore(currentDraggable, afterElement);
+    }, 2000);
+  };
+
   listBox.addEventListener('mousemove', (e) => {
     const currentDraggable = listBox.querySelector('.dragging');
     if (currentDraggable === null) return;
 
     const target = getDragAfterElement(listBox, e.clientY);
-
+    clearTimeout(previewTimeout);
     if (currentDraggable !== target) {
-      clearTimeout(previewTimeout);
       handlePreview(listBox, target, currentDraggable);
     }
 
