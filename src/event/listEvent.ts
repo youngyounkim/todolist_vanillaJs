@@ -45,13 +45,23 @@ export const addSelectListItemEvent: IaddSelectListItemEvent = (listArr, listBox
     } else if (target.className.indexOf('list_item') === -1) {
       return;
     }
-    if (target.className.indexOf('selected') !== -1) {
+
+    // 현재 드래그 중이라면 마우스를 땔 때 selected가 제거되지 않도록 drop_target을 검색
+    let hasDropTarget = false;
+    listBox.childNodes.forEach((el: HTMLLIElement) => {
+      if (el.className.indexOf('drop_target') !== -1) {
+        hasDropTarget = true;
+      }
+    });
+
+    if (target.className.indexOf('selected') !== -1 && !hasDropTarget) {
       target.classList.remove('selected');
     }
+
     if (target.className.indexOf('dragging') === -1) {
-      handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);
       return;
     }
+
     target.classList.add('selected');
 
     handleRenderingSortingItem(listArr, selectedBTN[0] as HTMLButtonElement);

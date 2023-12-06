@@ -32,7 +32,7 @@ const setLiItem: IsetLiItem = (itemName, listArr, listBox) => {
     item.classList.add('dragging');
   });
 
-  button.addEventListener('click', (e: Event) => {
+  button.addEventListener('mouseup', (e: Event) => {
     const element = e.target as Element;
     const parent = element.parentNode;
     listArr.forEach((el, idx) => {
