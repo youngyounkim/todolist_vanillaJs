@@ -1,4 +1,4 @@
-let document;
+let document: Document;
 if (global.document) {
   document = global.document;
 } else {
